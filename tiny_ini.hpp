@@ -1,6 +1,6 @@
 #pragma once
-#ifndef INI_PARSER_HPP
-#define INI_PARSER_HPP
+#ifndef TINY_INI_HPP
+#define TINY_INI_HPP
 
 #include <string>
 #include <unordered_map>
@@ -31,11 +31,14 @@ struct IniProperty {
 };
 
 struct IniSection {
+    friend class IniParser;
     std::vector<IniProperty> properties;
     std::string name;
 
+    std::string& operator[](const std::string& name);
+
     // Add a property to this section
-    void addProperty(const std::string& name, const std::string& value);
+    void setProperty(const std::string& name, const std::string& value);
 
     // Remove a property from this section
     void removeProperty(const std::string& name);
@@ -61,11 +64,13 @@ public:
     void removeSection(const std::string& section_name);
 
     // Add or update a property in a section (global section by default)
-    void addProperty(const std::string& name, const std::string& value, const std::string& section_name = "");
+    void setProperty(const std::string& name, const std::string& value, const std::string& section_name = "");
 
     // Remove a property from a section (global section by default)
     void removeProperty(const std::string& name, const std::string& section_name = "");
 
+public:
+    IniSection& operator[](const std::string& section_name);
 private:
     // Parse the content of the INI file
     void parse(const std::string& content);
@@ -78,4 +83,4 @@ private:
     std::shared_ptr<IniSection> m_globalSection;
 };
 
-#endif // !INI_PARSER_HPP
+#endif // !TINY_INI_HPP

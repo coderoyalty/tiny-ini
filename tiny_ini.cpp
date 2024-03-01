@@ -121,7 +121,7 @@ void IniParser::removeSection(const std::string& section_name)
 	m_sections.erase(section_name);
 }
 
-void IniParser::addProperty(const std::string& name, const std::string& value, const std::string& section_name)
+void IniParser::setProperty(const std::string& name, const std::string& value, const std::string& section_name)
 {
 	if (section_name.empty()) {
 		m_globalSection->addProperty(name, value);
@@ -149,7 +149,31 @@ void IniParser::removeProperty(const std::string& name, const std::string& secti
 	}
 }
 
-void IniSection::addProperty(const std::string& name, const std::string& value)
+IniSection& IniParser::operator[](const std::string& name)
+{
+	std::string section_name = Utils::trim(name);
+	addSection(section_name); // add the section incase it's not existing
+	if (section_name.empty()) {
+		return *m_globalSection;
+	}
+
+	return *m_sections[section_name];
+}
+
+std::string& IniSection::operator[](const std::string& name)
+{
+	std::string propertyName = Utils::trim(name);
+	for (auto& section : this->properties) {
+		if (section.name == propertyName) {
+			return section.value;
+		}
+	}
+
+	this->properties.push_back({ propertyName, "" });
+	return properties.back().value;
+}
+
+void IniSection::setProperty(const std::string& name, const std::string& value)
 {
 	std::string propertyName = Utils::trim(name);
 	if (propertyName.empty()) {

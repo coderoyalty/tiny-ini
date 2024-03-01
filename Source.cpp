@@ -16,10 +16,11 @@ int main() {
 	parser.deserialize(content);
 
 	parser.addSection("window");
-	parser.addProperty("width", "300px", "window");
-	parser.addProperty("height", "600px", "window");
-	parser.addProperty("vSync", "false", "window");
+	parser["window"]["width"] = "600";
+	parser["window"]["height do"] = "800";
+	parser.setProperty("vSync", "false", "window");
 	printIniSection(parser.getSection());
 	printIniSection(parser.getSection("window"));
+	//parser["section"][""];
 	std::cout << parser.serialize() << std::endl;
 }
