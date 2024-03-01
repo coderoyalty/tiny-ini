@@ -1,4 +1,4 @@
-#include "IniParser.h"
+#include "tiny_ini.hpp"
 
 namespace Utils {
 	static std::string trim(const std::string& str) {
@@ -67,6 +67,7 @@ void IniParser::reset()
 std::string IniParser::serialize() const
 {
 	std::stringstream ss;
+	ss << "; generated using: https://github.com/coderoyalty/tiny_ini" << std::endl;
 	// serialize global section properties first
 	for (const auto& property : m_globalSection->properties) {
 		ss << property.name << "=" << property.value << std::endl;

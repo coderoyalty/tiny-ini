@@ -1,4 +1,4 @@
-#include "IniParser.h"
+#include "tiny_ini.hpp"
 
 
 static void printIniSection(const std::shared_ptr<IniSection>& section) {
