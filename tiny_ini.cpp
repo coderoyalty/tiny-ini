@@ -124,13 +124,13 @@ void IniParser::removeSection(const std::string& section_name)
 void IniParser::setProperty(const std::string& name, const std::string& value, const std::string& section_name)
 {
 	if (section_name.empty()) {
-		m_globalSection->addProperty(name, value);
+		m_globalSection->setProperty(name, value);
 	}
 	else {
 		auto it = m_sections.find(section_name);
 
 		if (it != m_sections.end()) {
-			it->second->addProperty(name, value);
+			it->second->setProperty(name, value);
 		}
 	}
 }
